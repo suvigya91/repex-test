@@ -192,7 +192,7 @@ class Test_groups(object):
         if i < d1*d2:
             for x in temp:
                 for r in a:
-                    if (r.group_idx[1]==i):
+                    if (r.group_idx[2]==i):
                         x.append(r)
                 i = i+1
         
