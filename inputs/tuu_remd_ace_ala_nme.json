@@ -20,7 +20,7 @@
     "dim.input": {
         "d1": {
             "type" : "umbrella",
-            "number_of_replicas": "2",
+            "number_of_replicas": "8",
             "min_us_param": "0.0",
             "max_us_param": "360.0"
             },
