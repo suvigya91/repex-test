@@ -4,6 +4,7 @@ import json
 import radical.utils.logger as rul
 from os import path
 
+import radical.utils.logger as rul
 import pilot_kernels
 from pilot_kernels.pilot_kernel_pattern_s_multi_d_sc import PilotKernelPatternSmultiDsc
 from pilot_kernels.pilot_kernel_pattern_s_multi_d_scg import PilotKernelPatternSmultiDscg
@@ -17,10 +18,10 @@ work_dir = "repex-gen/radical.repex/bin"
 @pytest.fixture(scope="class")
 def repex_file_setup():  
     work_dir_local = (os.getcwd()+"/inputs")
-    with open("/home/suvigya/repex-gen/radical.repex/bin/tests/inputs/tuu_remd_ace_ala_nme.json") as data_file:
+    with open("inputs/tuu_remd_ace_ala_nme.json") as data_file:
         inp_file = json.load(data_file)
 
-    with open("/home/suvigya/repex-gen/radical.repex/bin/tests/inputs/stampede.json") as config_file:
+    with open("inputs/stampede.json") as config_file:
         rconfig = json.load(config_file)
 
     
@@ -28,7 +29,7 @@ def repex_file_setup():
 
 @pytest.fixture(scope="class")
 def replica_num():
-    with open("/home/suvigya/repex-gen/radical.repex/bin/tests/inputs/tuu_remd_ace_ala_nme.json") as data_file:
+    with open("inputs/tuu_remd_ace_ala_nme.json") as data_file:
         inp_file = json.load(data_file)
 
     d1 = int(inp_file["dim.input"]["d1"]["number_of_replicas"])
@@ -53,6 +54,9 @@ def repex_initialize():
     inp_file, rconfig, work_dir_local = repex_file_setup()
     n = inp_file["dim.input"]["d1"]["number_of_replicas"]
     md_kernel    = KernelPatternS( inp_file, rconfig, work_dir_local )
+    print md_kernel.work_dir_local
+    print md_kernel.input_folder
+    print md_kernel.amber_coordinates_path
     a = md_kernel.initialize_replicas()
     return md_kernel, a    
 
@@ -65,6 +69,13 @@ def repex_initialize_shared_data():
     md_kernel.prepare_shared_data(a)
     return md_kernel,a    
     
+@pytest.fixture(scope="class")
+def repex_initialize_e2e():
+    inp_file, rconfig, work_dir_local = repex_file_setup()
+    #n = inp_file["dim.input"]["d1"]["number_of_replicas"]
+    md_kernel    = KernelPatternS( inp_file, rconfig, work_dir_local )
+    pilot_kernel = PilotKernelPatternSmultiDsc( inp_file, rconfig )
+    return md_kernel, pilot_kernel , work_dir   
 
 #######################################################################################################
 class Testbasic(object):
@@ -75,7 +86,7 @@ class Testbasic(object):
 
     def test_name(self):
         md_kernel, a = repex_initialize()
-        assert md_kernel.name == 'amber-pattern-s-3d'
+        assert md_kernel.name == 'samber-pattern-s-3d'
 
 
 class Test_replica_tests(object):
@@ -201,6 +212,29 @@ class Test_groups(object):
             num_out.append(len(x))
         print num_out
         assert num_out == test_out
+############################################################################################
+
+# class Test_E2E(object):
+#     def test_endtoend(self):
+#         md_kernel,pilot_kernel,work_dir = repex_initialize_e2e()
+#         replicas = md_kernel.initialize_replicas()
+#         try:
+#             pilot_manager, pilot_object, session = pilot_kernel.launch_pilot()
+#             pilot_kernel.run_simulation( replicas, pilot_object, session, md_kernel )
+#         except:
+# 	    raise
+#         try:
+#             # finally we are moving all files to individual replica directories
+#             move_output_files(work_dir_local, md_kernel, replicas ) 
+    
+#             logger.info("Simulation successfully finished!")
+# 	    logger.info("Please check output files in replica_x directories.")
+# 	except:
+# 	    logger.info("Unexpected error: {0}".format(sys.exc_info()[0]) )
+# 	    raise 
+# 	finally :
+# 	    logger.info("Closing session.")
+# 	    session.close (cleanup=True, terminate=True)  
 
 ############################################################################################
 ##        
