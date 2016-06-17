@@ -7,15 +7,23 @@ import pytest
 import json
 
 from os import path
-import pilot_kernels
+#import radical.utils.logger as rul
+#from repex_utils.replica_cleanup import *
+#from repex_utils.parser import parse_command_line
+
+from pilot_kernels.pilot_kernel_pattern_s_multi_d_sc  import PilotKernelPatternSmultiDsc
+from pilot_kernels.pilot_kernel_pattern_s_multi_d_scg import PilotKernelPatternSmultiDscg
+from pilot_kernels.pilot_kernel_pattern_a_multi_d     import PilotKernelPatternAmultiD
+
+from amber_kernel.kernel_pattern_s import KernelPatternS
 
 
 @pytest.fixture(scope="class")
-def repex_file_setup():  
+def repex_file_setup(fname):  
     from amber_kernel.kernel_pattern_s import KernelPatternS
     work_dir_local = (os.getcwd()+"/inputs")
     #print work_dir_local
-    with open("inputs/tuu_remd_ace_ala_nme.json") as data_file:
+    with open("inputs/%s"%fname) as data_file:
         inp_file = json.load(data_file)
 
     with open("inputs/stampede.json") as config_file:
@@ -25,9 +33,9 @@ def repex_file_setup():
     return inp_file, rconfig, work_dir_local
 
 @pytest.fixture(scope="class")
-def repex_initialize():
+def repex_initialize(fname):
     from amber_kernel.kernel_pattern_s import KernelPatternS
-    inp_file, rconfig, work_dir_local = repex_file_setup()
+    inp_file, rconfig, work_dir_local = repex_file_setup(fname)
     n = inp_file["dim.input"]["d1"]["number_of_replicas"]
     md_kernel    = KernelPatternS( inp_file, rconfig, work_dir_local )
     print md_kernel.work_dir_local
@@ -41,13 +49,16 @@ class Testbasic(object):
 	#def test_import(self):
 	#	from amber_kernel.kernel_pattern_s import KernelPatternS
 
-    def test_try(self):
+    def test_try(self,cmdopt):
+        fname = cmdopt
         #from amber_kernel.kernel_pattern_s import KernelPatternS
-        inp_file, rconfig, work_dir_local = repex_file_setup()
+        inp_file, rconfig, work_dir_local = repex_file_setup(fname)
+        print cmdopt
         assert inp_file['remd.input'].get('group_exec') == 'False'
 
 
-    def test_name(self):
+    def test_name(self,cmdopt):
+        fname = cmdopt
     	from amber_kernel.kernel_pattern_s import KernelPatternS
-        md_kernel, a = repex_initialize()
+        md_kernel, a = repex_initialize(fname)
         assert md_kernel.name == 'amber-pattern-s-3d'

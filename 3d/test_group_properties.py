@@ -12,9 +12,9 @@ from pilot_kernels.pilot_kernel_pattern_s_multi_d_scg import PilotKernelPatternS
 from amber_kernel.kernel_pattern_s import KernelPatternS
 
 @pytest.fixture(scope="class")
-def repex_file_setup():
+def repex_file_setup(fname):
     work_dir_local = (os.getcwd()+"/inputs")
-    with open("inputs/tuu_remd_ace_ala_nme.json") as data_file:
+    with open("inputs/%s"%fname) as data_file:
         inp_file = json.load(data_file)
 
     with open("inputs/stampede.json") as config_file:
@@ -24,8 +24,8 @@ def repex_file_setup():
     return inp_file, rconfig, work_dir_local
 
 @pytest.fixture(scope="class")
-def replica_num():
-    with open("inputs/tuu_remd_ace_ala_nme.json") as data_file:
+def replica_num(fname):
+    with open("inputs/%s"%fname) as data_file:
         inp_file = json.load(data_file)
 
     d1 = int(inp_file["dim.input"]["d1"]["number_of_replicas"])
@@ -46,8 +46,8 @@ def max_replica(d1,d2,d3):
     return temp[1],temp[2]
     
 @pytest.fixture(scope="class")
-def repex_initialize():
-    inp_file, rconfig, work_dir_local = repex_file_setup()
+def repex_initialize(fname):
+    inp_file, rconfig, work_dir_local = repex_file_setup(fname)
     n = inp_file["dim.input"]["d1"]["number_of_replicas"]
     md_kernel    = KernelPatternS( inp_file, rconfig, work_dir_local )
     a = md_kernel.initialize_replicas()
@@ -55,7 +55,7 @@ def repex_initialize():
 
 @pytest.fixture(scope="class")
 def repex_initialize_shared_data():
-    inp_file, rconfig, work_dir_local = repex_file_setup()
+    inp_file, rconfig, work_dir_local = repex_file_setup(fname)
     n = inp_file["dim.input"]["d1"]["number_of_replicas"]
     md_kernel    = KernelPatternS( inp_file, rconfig, work_dir_local )
     a = md_kernel.initialize_replicas()
@@ -64,9 +64,10 @@ def repex_initialize_shared_data():
 
 
 class Test_replica_tests(object):
-    def test_initialize_replica_id(self):
-        md_kernel, a = repex_initialize()
-	d1,d2,d3 = replica_num()
+    def test_initialize_replica_id(self,cmdopt):
+        fname = cmdopt
+        md_kernel, a = repex_initialize(fname)
+	d1,d2,d3 = replica_num(fname)
 
 	test_out = range(d1*d2*d3)
 	replica_output = []
@@ -78,21 +79,23 @@ class Test_replica_tests(object):
 	print test_out
 	assert sorted(replica_output) == sorted(test_out)
 
-    def test_total_group(self):
-        md_kernel, a = repex_initialize()
+    def test_total_group(self,cmdopt):
+        fname = cmdopt
+        md_kernel, a = repex_initialize(fname)
         replica_output = []
         for i in range(0,len(a)):
             replica_output.append(a[i].group_idx)
 
-        d1,d2,d3 = replica_num()
+        d1,d2,d3 = replica_num(fname)
         max1,max2 = max_replica(d1,d2,d3)
         print max1*max2
         assert max(max(replica_output))+1 == (max1*max2)
 
 class Test_groups(object):
-    def test_group_d1(self):
-        md_kernel, a = repex_initialize()
-        d1,d2,d3 = replica_num()
+    def test_group_d1(self,cmdopt):
+        fname = cmdopt
+        md_kernel, a = repex_initialize(fname)
+        d1,d2,d3 = replica_num(fname)
         temp = [[] for x in xrange(d2*d3)]
         test_out = []
         #test_out = [2,2,2,2]
@@ -112,12 +115,14 @@ class Test_groups(object):
         for x in temp:
             num_out.append(len(x))
         print num_out
+        print cmdopt
         assert num_out == test_out
 
 
-    def test_group_d2(self):
-        md_kernel, a = repex_initialize()
-        d1,d2,d3 = replica_num()
+    def test_group_d2(self,cmdopt):
+        fname = cmdopt
+        md_kernel, a = repex_initialize(fname)
+        d1,d2,d3 = replica_num(fname)
         temp = [[] for x in xrange(d1*d3)]
         test_out = []
         #test_out = [2,2,2,2]
@@ -140,9 +145,10 @@ class Test_groups(object):
         assert num_out == test_out
 
 
-    def test_group_d3(self):
-        md_kernel, a = repex_initialize()
-        d1,d2,d3 = replica_num()
+    def test_group_d3(self,cmdopt):
+        fname = cmdopt
+        md_kernel, a = repex_initialize(fname)
+        d1,d2,d3 = replica_num(fname)
         temp = [[] for x in xrange(d1*d2)]
         test_out = []
         #test_out = [2,2,2,2]
