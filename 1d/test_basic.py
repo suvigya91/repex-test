@@ -13,11 +13,11 @@ from os import path
 #from repex_utils.replica_cleanup import *
 #from repex_utils.parser import parse_command_line
 
-from pilot_kernels.pilot_kernel_pattern_s_multi_d_sc  import PilotKernelPatternSmultiDsc
-from pilot_kernels.pilot_kernel_pattern_s_multi_d_scg import PilotKernelPatternSmultiDscg
-from pilot_kernels.pilot_kernel_pattern_a_multi_d     import PilotKernelPatternAmultiD
+#from pilot_kernels.pilot_kernel_pattern_s_multi_d_sc  import PilotKernelPatternSmultiDsc
+#from pilot_kernels.pilot_kernel_pattern_s_multi_d_scg import PilotKernelPatternSmultiDscg
+#from pilot_kernels.pilot_kernel_pattern_a_multi_d     import PilotKernelPatternAmultiD
 
-from amber_kernel.kernel_pattern_s import KernelPatternS
+#from amber_kernel.kernel_pattern_s import KernelPatternS
 
 
 @pytest.fixture(scope="class")
@@ -48,19 +48,14 @@ def repex_initialize(fname):
 
 
 class Testbasic(object):
-	#def test_import(self):
-	#	from amber_kernel.kernel_pattern_s import KernelPatternS
+    def test_import(self):
+	from amber_kernel.kernel_pattern_s import KernelPatternS
 
-    def test_try(self,cmdopt):
-        fname = cmdopt
-        #from amber_kernel.kernel_pattern_s import KernelPatternS
-        inp_file, rconfig, work_dir_local = repex_file_setup(fname)
-        #print cmdopt
+    #def test_try(self,cmdopt):
+    #    fname = cmdopt
+    #    inp_file, rconfig, work_dir_local = repex_file_setup(fname)
 
-        #if args.group_exe == "False""
-        assert inp_file['remd.input'].get('group_exec') == 'False'
-        #else:
-            #assert inp_file['remd.input'].get('group_exec') == 'True'
+    #    assert inp_file['remd.input'].get('group_exec') == 'False'
             
     def test_name(self,cmdopt):
         fname = cmdopt

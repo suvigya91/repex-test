@@ -9,7 +9,7 @@
         "amber_parameters": "ace_ala_nme.parm7",
         "amber_coordinates_folder": "ace_ala_nme_coors",
         "same_coordinates": "True",
-        "group_exec": "False",
+        "group_exec": "True",
         "replica_mpi": "False",
         "replica_cores": "1",
         "steps_per_cycle": "100",
