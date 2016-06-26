@@ -57,34 +57,34 @@ echo " " >> $file
 echo "Testing 1D for different input files"   >> test_results/test_$now/$file
 echo "========================================================================="  >> test_results/test_$now/$file
 #echo $pwd
-py.test 1d/ --cmdopt='sync_g/u_remd_ace_ala_nme.json'>> test_results/test_$now/$file
-py.test 1d/ --cmdopt='sync_g/t_remd_ace_ala_nme.json'>> test_results/test_$now/$file
-py.test 1d/ --cmdopt='sync_g/s_remd_ace_ala_nme.json'>> test_results/test_$now/$file
+py.test 1d/test_group_properties.py --cmdopt='sync_g/u_remd_ace_ala_nme.json'>> test_results/test_$now/$file
+py.test 1d/test_group_properties.py --cmdopt='sync_g/t_remd_ace_ala_nme.json'>> test_results/test_$now/$file
+py.test 1d/test_group_properties.py --cmdopt='sync_g/s_remd_ace_ala_nme.json'>> test_results/test_$now/$file
 
 
 echo " " >> $file
 echo "Testing 2D for different input files"   >> test_results/test_$now/$file
 echo "========================================================================="  >> test_results/test_$now/$file
 #echo $pwd
-py.test 2d/ --cmdopt='sync_g/st_remd_ace_ala_nme.json'>> test_results/test_$now/$file
-py.test 2d/ --cmdopt='sync_g/su_remd_ace_ala_nme.json'>> test_results/test_$now/$file
-py.test 2d/ --cmdopt='sync_g/ut_remd_ace_ala_nme.json'>> test_results/test_$now/$file
+py.test 2d/test_group_properties.py --cmdopt='sync_g/st_remd_ace_ala_nme.json'>> test_results/test_$now/$file
+py.test 2d/test_group_properties.py --cmdopt='sync_g/su_remd_ace_ala_nme.json'>> test_results/test_$now/$file
+py.test 2d/test_group_properties.py --cmdopt='sync_g/ut_remd_ace_ala_nme.json'>> test_results/test_$now/$file
 
 
 echo " " >> $file
 echo "Testing 3D for different input files"   >> test_results/test_$now/$file
 echo "========================================================================="  >> test_results/test_$now/$file
 #echo $pwd
-py.test 3d/ --cmdopt='sync_g/stu_remd_ace_ala_nme.json'>> test_results/test_$now/$file
-py.test 3d/ --cmdopt='sync_g/sut_remd_ace_ala_nme.json'>> test_results/test_$now/$file
-py.test 3d/ --cmdopt='sync_g/suu_remd_ace_ala_nme.json'>> test_results/test_$now/$file
-py.test 3d/ --cmdopt='sync_g/tsu_remd_ace_ala_nme.json'>> test_results/test_$now/$file
-py.test 3d/ --cmdopt='sync_g/tus_remd_ace_ala_nme.json'>> test_results/test_$now/$file
-py.test 3d/ --cmdopt='sync_g/tuu_remd_ace_ala_nme.json'>> test_results/test_$now/$file
-py.test 3d/ --cmdopt='sync_g/usu_remd_ace_ala_nme.json'>> test_results/test_$now/$file
-py.test 3d/ --cmdopt='sync_g/utu_remd_ace_ala_nme.json'>> test_results/test_$now/$file
-py.test 3d/ --cmdopt='sync_g/uus_remd_ace_ala_nme.json'>> test_results/test_$now/$file
-py.test 3d/ --cmdopt='sync_g/uut_remd_ace_ala_nme.json'>> test_results/test_$now/$file
+py.test 3d/test_group_properties.py --cmdopt='sync_g/stu_remd_ace_ala_nme.json'>> test_results/test_$now/$file
+py.test 3d/test_group_properties.py --cmdopt='sync_g/sut_remd_ace_ala_nme.json'>> test_results/test_$now/$file
+py.test 3d/test_group_properties.py --cmdopt='sync_g/suu_remd_ace_ala_nme.json'>> test_results/test_$now/$file
+py.test 3d/test_group_properties.py --cmdopt='sync_g/tsu_remd_ace_ala_nme.json'>> test_results/test_$now/$file
+py.test 3d/test_group_properties.py --cmdopt='sync_g/tus_remd_ace_ala_nme.json'>> test_results/test_$now/$file
+py.test 3d/test_group_properties.py --cmdopt='sync_g/tuu_remd_ace_ala_nme.json'>> test_results/test_$now/$file
+py.test 3d/test_group_properties.py --cmdopt='sync_g/usu_remd_ace_ala_nme.json'>> test_results/test_$now/$file
+py.test 3d/test_group_properties.py --cmdopt='sync_g/utu_remd_ace_ala_nme.json'>> test_results/test_$now/$file
+py.test 3d/test_group_properties.py --cmdopt='sync_g/uus_remd_ace_ala_nme.json'>> test_results/test_$now/$file
+py.test 3d/test_group_properties.py --cmdopt='sync_g/uut_remd_ace_ala_nme.json'>> test_results/test_$now/$file
 
 
 

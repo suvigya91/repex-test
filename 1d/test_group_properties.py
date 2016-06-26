@@ -114,5 +114,20 @@ class Test_groups(object):
         print cmdopt
         assert num_out == test_out    
 
+class Testbasic(object):
+    def test_import(self):
+	from amber_kernel.kernel_pattern_s import KernelPatternS
 
+    #def test_try(self,cmdopt):
+    #    fname = cmdopt
+    #    inp_file, rconfig, work_dir_local = repex_file_setup(fname)
+
+    #    assert inp_file['remd.input'].get('group_exec') == 'False'
+            
+    def test_name(self,cmdopt):
+        fname = cmdopt
+    	from amber_kernel.kernel_pattern_s import KernelPatternS
+        md_kernel, a = repex_initialize(fname)
+        print md_kernel.name
+        assert md_kernel.name == 'amber-pattern-s-3d'
 
