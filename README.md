@@ -33,3 +33,8 @@ Salt Concentration and Unmbrella Sampling.
 ```
 ./run_test_sync_g.sh
 ```
+
+- To compare pairs\_for\_exchange file and simluation.pkl after each cycle (Successful only for 3D), run:
+```
+py.test 3D/test_compare.py --cmdopt='sync_g/tuu_remd_ace_ala_nme.json'
+```
